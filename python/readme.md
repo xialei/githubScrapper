@@ -49,8 +49,8 @@ email
 
 ## using scrapy cloud
 
-https://dash.scrapinghub.com/p/23231/spider/gitusers/
-http://doc.scrapinghub.com/scrapy-cloud.html#deploying-a-scrapy-spider
+*https://dash.scrapinghub.com
+*http://doc.scrapinghub.com/scrapy-cloud.html#deploying-a-scrapy-spider
 
 pip install shub
 
