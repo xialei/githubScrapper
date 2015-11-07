@@ -1,4 +1,4 @@
-package com.aug3.githubScrapper.api
+package com.aug3.githubScrapper.endpoints
 
 /**
  * Created by roger on 15/10/28.

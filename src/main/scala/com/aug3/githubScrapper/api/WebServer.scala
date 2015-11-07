@@ -1,8 +1,7 @@
 package com.aug3.githubScrapper.api
 
 import java.net.InetSocketAddress
-
-import com.aug3.githubScrapper.api.endpoints.{SearchEndpoint, UsersEndpoint}
+import com.aug3.githubScrapper.endpoints.{UsersEndpoint, SearchEndpoint}
 import com.twitter.finagle.httpx.{Request, Response}
 import com.twitter.finagle.{Httpx, Service}
 import com.twitter.util.Await
@@ -12,7 +11,7 @@ import com.twitter.util.Await
  */
 object WebServer extends App with ErrorHandling {
 
-  val apis = SearchEndpoint.SearchAPIs //|
+  val apis = SearchEndpoint.SearchAPIs | UsersEndpoint.UserAPIs
 
   def makeService(): Service[Request, Response] = handleExceptions andThen apis.toService
 
