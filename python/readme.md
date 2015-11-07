@@ -1,4 +1,7 @@
-1. install virtualenv
+Demo to use scrapy for scrapying
+=================================
+
+## install virtualenv
 
 pip install virtualenv
 
@@ -9,30 +12,29 @@ virtualenv envscrapy
 source bin/activate
 
 
-2. install dependency packages
+### install dependency packages
 
 pip install lxml
 
 pip install pyOpenSSL
 
 
-3. install Scrapy
+### install Scrapy
 
 pip install Scrapy
 
 
-4. create scrapy project
+## create scrapy project
 
 scrapy startproject github
 
-#create a spider for github.com
+### create a spider for github.com
 scrapy genspider github github.com -t basic
 
-# spiders 目录中的.py文件不能和项目名同名。
+> spiders 目录中的.py文件不能和项目名同名。
 scrapy edit gitusers
 
 scrapy crawl gitusers -o users.json -t json
-
 
 name
 //*[@id="user_search_results"]/div[1]/div[1]/div[2]/a
@@ -45,10 +47,10 @@ email
 //*[@id="user_search_results"]/div[1]/div[2]/div[2]/ul/li[2]/span/a
 
 
-5. using scrapy cloud
+## using scrapy cloud
 
-https://dash.scrapinghub.com/p/23231/spider/gitusers/
-http://doc.scrapinghub.com/scrapy-cloud.html#deploying-a-scrapy-spider
+*https://dash.scrapinghub.com
+*http://doc.scrapinghub.com/scrapy-cloud.html#deploying-a-scrapy-spider
 
 pip install shub
 
@@ -63,5 +65,4 @@ shub deploy
 shub logout
 
 
-
-6. deactivate
+## deactivate
