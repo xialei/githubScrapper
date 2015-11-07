@@ -2,7 +2,8 @@ Github Search
 ==============
 https://developer.github.com/v3/search/
 
-==get user info
+## get user info
+
 curl https://api.github.com/users/xialei
 {
   "login": "xialei",
@@ -37,7 +38,7 @@ curl https://api.github.com/users/xialei
   "updated_at": "2015-10-04T04:13:18Z"
 }
 
-==get repos info
+## get repos info
 curl -i https://api.github.com/repos/lgnlgn/ansj4solr
 HTTP/1.1 200 OK
 Server: GitHub.com
@@ -155,15 +156,15 @@ X-Served-By: 8dd185e423974a7e13abbbe6e060031e
   "subscribers_count": 5
 }
 
-==Advanced Search
+## Advanced Search
 
 https://github.com/search?utf8=%E2%9C%93&q=location%3AShanghai+location%3AChina+language%3AScala&type=Users&ref=advsearch&l=&l=Scala
 
-#user_search_results > div.user-list > div
-#user_search_results > div.user-list > div > div.user-list-info > a
-address
-#user_search_results > div.user-list > div > div.user-list-info > ul > li:nth-child(1) > span
-email
-#user_search_results > div.user-list > div > div.user-list-info > ul > li:nth-child(2) > span > a
-a
-#user_search_results > div.user-list > div > div.user-list-info > a
++ userlist
+    \#user_search_results > div.user-list > div
++ address
+    \#user_search_results > div.user-list > div > div.user-list-info > ul > li:nth-child(1) > span
++ email
+    \#user_search_results > div.user-list > div > div.user-list-info > ul > li:nth-child(2) > span > a
++ a
+    \#user_search_results > div.user-list > div > div.user-list-info > a
