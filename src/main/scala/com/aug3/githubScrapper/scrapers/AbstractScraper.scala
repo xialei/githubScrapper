@@ -28,6 +28,7 @@ trait AbstractScraper {
 
     println("===request path:" + request.path)
 
+    // refer to : http://dispatch-classic.databinder.net/JSoup.html
     val items = Http(request </> { doc =>
       parse(doc, selectorMap)
     })
@@ -37,18 +38,18 @@ trait AbstractScraper {
 
   def parse(doc: Document, selectorMap: Map[String, (String, String)]): List[Item] = {
 
-    val childrenIt = doc.select(selectorMap.get("items").get._1).iterator()
+    val childrenItems = doc.select(selectorMap.get("items").get._1).iterator()
     val items = mutable.MutableList[Item]()
 
-    while (childrenIt.hasNext) {
+    while (childrenItems.hasNext) {
 
-      val it = childrenIt.next()
-      val uid = Some(it.select(selectorMap.get("uid").get._1).text()).orElse(None) //.attr(selectorMap.get("uid").get._2)).orElse(None)
-      val name = Some(it.select(selectorMap.get("name").get._1).text()).orElse(None) //.attr(selectorMap.get("name").get._2)).orElse(None)
-      val avatar = Some(it.select(selectorMap.get("avatar").get._1).attr(selectorMap.get("avatar").get._2)).orElse(None)
-      val location = Some(it.select(selectorMap.get("location").get._1).text()).orElse(None) //.attr(selectorMap.get("location").get._2)).orElse(None)
-      val email = Some(it.select(selectorMap.get("email").get._1).text()).orElse(None) //.attr(selectorMap.get("email").get._2)).orElse(None)
-      val url = Some(it.select(selectorMap.get("url").get._1).attr(selectorMap.get("url").get._2)).orElse(None)
+      val node = childrenItems.next()
+      val uid = Some(node.select(selectorMap.get("uid").get._1).text()).orElse(None) //.attr(selectorMap.get("uid").get._2)).orElse(None)
+      val name = Some(node.select(selectorMap.get("name").get._1).text()).orElse(None) //.attr(selectorMap.get("name").get._2)).orElse(None)
+      val avatar = Some(node.select(selectorMap.get("avatar").get._1).attr(selectorMap.get("avatar").get._2)).orElse(None)
+      val location = Some(node.select(selectorMap.get("location").get._1).text()).orElse(None) //.attr(selectorMap.get("location").get._2)).orElse(None)
+      val email = Some(node.select(selectorMap.get("email").get._1).text()).orElse(None) //.attr(selectorMap.get("email").get._2)).orElse(None)
+      val url = Some(node.select(selectorMap.get("url").get._1).attr(selectorMap.get("url").get._2)).orElse(None)
 
       val item = Item(uid, name, avatar, location, email, url)
 

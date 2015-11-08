@@ -8,9 +8,11 @@ version := "0.0.1"
 
 scalaVersion := "2.11.5"
 
-mainClass in (Compile, run) := Some("com.aug3.githubScrapper.api.WebServer")
+mainClass in(Compile, run) := Some("com.aug3.githubScrapper.api.WebServer")
 
-ivyScala := ivyScala.value map {_.copy(overrideScalaVersion = true)}
+ivyScala := ivyScala.value map {
+  _.copy(overrideScalaVersion = true)
+}
 
 libraryDependencies ++= Seq(
   "com.github.finagle" %% "finch-core" % "0.8.0",
@@ -18,6 +20,9 @@ libraryDependencies ++= Seq(
   "com.twitter" % "finagle-redis_2.11" % "6.29.0",
 
   "net.databinder" % "dispatch-jsoup_2.11" % "0.8.10",
+  "net.databinder.dispatch" % "dispatch-lift-json_2.11" % "0.11.3",
+  //  "net.liftweb" %% "lift-json" % "2.6+",
+
   "com.github.nscala-time" %% "nscala-time" % "2.2.0",
   "com.beachape.metascraper" % "metascraper_2.11" % "0.2.8",
   "com.ning" % "async-http-client" % "1.9.3",
