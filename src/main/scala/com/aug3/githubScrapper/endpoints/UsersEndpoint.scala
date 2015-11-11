@@ -3,6 +3,7 @@ package com.aug3.githubScrapper.endpoints
 import com.aug3.githubScrapper.domain.{SearchParam, SearchResult}
 import com.aug3.githubScrapper.endpoints.SearchEndpoint._
 import com.aug3.githubScrapper.scrapers.GithubAPI
+import io.finch.argonaut._
 import io.finch.request._
 import io.finch.response.Ok
 import io.finch.route._
@@ -25,7 +26,7 @@ object UsersEndpoint {
         val items = githubAPI.search(s)
 
         val searchResult = SearchResult(
-          Some(searchScarperService.getSource()),
+          Some(githubAPI.getSource()),
           None,
           None,
           s.keywords,
