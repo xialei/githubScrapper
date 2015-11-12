@@ -1,6 +1,5 @@
-Github Search
-==============
-https://developer.github.com/v3/search/
+Github OpenAPI
+--------------
 
 ## get user info
 
@@ -158,7 +157,7 @@ curl -i https://api.github.com/repos/lgnlgn/ansj4solr
 
 ## search user
 
-##### search through API
+### search through API
     https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
     {
       "total_count": 2,
@@ -190,16 +189,7 @@ curl -i https://api.github.com/repos/lgnlgn/ansj4solr
           "avatar_url": "https://avatars.githubusercontent.com/u/32314?v=3",
           "gravatar_id": "",
           "url": "https://api.github.com/users/tmcw",
-          "html_url": "https://github.com/tmcw",
-          "followers_url": "https://api.github.com/users/tmcw/followers",
-          "following_url": "https://api.github.com/users/tmcw/following{/other_user}",
-          "gists_url": "https://api.github.com/users/tmcw/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/tmcw/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/tmcw/subscriptions",
-          "organizations_url": "https://api.github.com/users/tmcw/orgs",
-          "repos_url": "https://api.github.com/users/tmcw/repos",
-          "events_url": "https://api.github.com/users/tmcw/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/tmcw/received_events",
+          ......
           "type": "User",
           "site_admin": false,
           "score": 33.316254
@@ -207,7 +197,7 @@ curl -i https://api.github.com/repos/lgnlgn/ansj4solr
       ]
     }
 
-##### Advanced Search
+### Advanced Search
 https://github.com/search?utf8=%E2%9C%93&q=location%3AShanghai+location%3AChina+language%3AScala&type=Users&ref=advsearch&l=&l=Scala
 
     + userlist
@@ -219,5 +209,20 @@ https://github.com/search?utf8=%E2%9C%93&q=location%3AShanghai+location%3AChina+
     + a
         \#user_search_results > div.user-list > div > div.user-list-info > a
 
-## dispatch
-http://www.flotsam.nl/dispatch-periodic-table.html
+Restful API
+-----------
+
+    http://localhost:8080/apis/v1/search
+    http://localhost:8080/apis/v1/users
+    {
+      "keywords" : "location:shanghai language:scala", 
+      "source" : "github"
+    }
+
+
+
+Reference docs
+--------------
+
+    https://developer.github.com/v3/search/
+    http://www.flotsam.nl/dispatch-periodic-table.html
