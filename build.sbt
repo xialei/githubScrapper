@@ -22,6 +22,8 @@ libraryDependencies ++= Seq(
   "net.databinder" % "dispatch-jsoup_2.11" % "0.8.10",
   "net.databinder.dispatch" % "dispatch-lift-json_2.11" % "0.11.3",
   //  "net.liftweb" %% "lift-json" % "2.6+",
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.3",
+  "org.json4s" %% "json4s-native" % "3.3.0",
 
   "com.github.nscala-time" %% "nscala-time" % "2.2.0",
   "com.beachape.metascraper" % "metascraper_2.11" % "0.2.8",

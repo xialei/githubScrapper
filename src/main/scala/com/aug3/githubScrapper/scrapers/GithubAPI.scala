@@ -4,7 +4,6 @@ import com.aug3.githubScrapper.domain.{Item, SearchParam}
 import dispatch._
 import Defaults._
 
-import net.liftweb.json.JsonAST._
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
@@ -29,31 +28,27 @@ class GithubAPI {
 
     val request = url("https://api.github.com/search/users") <<? params
 
-    println("===request path:" + request.toString)
-
     val response = Http(request OK dispatch.as.String)
 
-    for (c <- response)
-      println("===" + c)
+    val json = parse(response())
 
-//      .toLiftFuture.map { jv =>
-//      jv.children.map { item =>
-//        val JString(id) = item \ "id"
-//        val JString(name) = item \ "name"
-//        val JString(columnId) = item \ "idList"
-//        val checkListItems = ChecklistExtractor.extract(item \ "checklists")
-//        Item(
-//          uid = uid,
-//          name = name,
-//          avatar = avatar,
-//          location = location,
-//          email = email,
-//          url = url
-//        )
-//      }
-//    }
+    val results = for {
+      JObject(item) <- json
+      JField("login", JString(name)) <- item
+      JField("avatar_url", JString(avatar)) <- item
+      JField("url", JString(url)) <- item
+    //      JField("score", JInt(score)) <- item
+    //      if score > 4
+    } yield Item(
+        uid = Some(name).orElse(None),
+        name = Some(name).orElse(None),
+        avatar = Some(avatar).orElse(None),
+        location = None,
+        email = None,
+        url = Some(url).orElse(None)
+      )
 
-    return mutable.MutableList[Item]().toList
+    return results
   }
 
 }
