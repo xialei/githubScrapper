@@ -19,7 +19,8 @@ case class User(
                  following: Option[Int],
                  public_repos: Option[Int],
                  repos_url: Option[String],
-                 created_at: Option[String]
+                 created_at: Option[String],
+                 updated_at: Option[String]
                  )
 
 object User {
@@ -27,7 +28,7 @@ object User {
    * Creates the encode/decode codec for the User object.
    */
   implicit val UserCodec: CodecJson[User] =
-    casecodec13(User.apply, User.unapply)("id", "login", "name", "email", "location",
+    casecodec14(User.apply, User.unapply)("id", "login", "name", "email", "location",
       "url", "avatar", "company", "followers", "following", "public_repos",
-      "repos_url", "created_at")
+      "repos_url", "created_at", "updated_at")
 }

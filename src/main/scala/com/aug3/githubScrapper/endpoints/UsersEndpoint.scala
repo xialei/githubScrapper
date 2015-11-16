@@ -40,7 +40,13 @@ object UsersEndpoint {
 
   val query =
     get(module / string("uid")) {
-      uid: String => Ok()
+      uid: String =>
+
+        val githubAPI = GithubAPI()
+
+        val user = githubAPI.queryUser(uid)
+
+        Ok(user)
     }
 
   val UserAPIs = search | query
