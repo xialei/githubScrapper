@@ -7,8 +7,6 @@ import Defaults._
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
-import scala.collection.mutable
-
 /**
  * Created by roger on 15/11/7.
  */
@@ -60,40 +58,24 @@ class GithubAPI {
 
     val json = parse(response())
 
-    val results = for {
-      JField("id", JLong(id)) <- json
-      JField("login", JString(login)) <- json
-      JField("name", JString(name)) <- json
-      JField("email", JString(email)) <- json
-      JField("location", JString(location)) <- json
-      JField("url", JString(url)) <- json
-      JField("avatar", JString(avatar)) <- json
-      JField("company", JString(company)) <- json
-      JField("followers", JInt(followers)) <- json
-      JField("following", JInt(following)) <- json
-      JField("public_repos", JInt(public_repos)) <- json
-      JField("repos_url", JString(repos_url)) <- json
-      JField("created_at", JString(created_at)) <- json
-      JField("updated_at", JString(updated_at)) <- json
-    } yield User(
-        Some(id).orElse(None),
-        Some(login).orElse(None),
-        Some(name).orElse(None),
-        Some(email).orElse(None),
-        Some(location).orElse(None),
-        Some(url).orElse(None),
-        Some(avatar).orElse(None),
-        Some(company).orElse(None),
-        Some(followers).orElse(None),
-        Some(followers).orElse(None),
-        Some(public_repos).orElse(None),
-        Some(repos_url).orElse(None),
-        Some(created_at).orElse(None),
-        Some(updated_at).orElse(None)
-      )
+    println("===" + json)
 
-
-    return results
+    return User(
+      compact(render(json \ "id")).toLong,
+      Some(compact(render(json \ "login"))).orElse(None),
+      Some(compact(render(json \ "name"))).orElse(None),
+      Some(compact(render(json \ "email"))).orElse(None),
+      Some(compact(render(json \ "location"))).orElse(None),
+      Some(compact(render(json \ "url"))).orElse(None),
+      Some(compact(render(json \ "avatar"))).orElse(None),
+      Some(compact(render(json \ "company"))).orElse(None),
+      compact(render(json \ "followers")).toInt,
+      compact(render(json \ "followers")).toInt,
+      compact(render(json \ "public_repos")).toInt,
+      Some(compact(render(json \ "repos_url"))).orElse(None),
+      Some(compact(render(json \ "created_at"))).orElse(None),
+      Some(compact(render(json \ "updated_at"))).orElse(None)
+    )
   }
 
 }

@@ -7,7 +7,7 @@ import argonaut.CodecJson
  * Created by roger on 15/10/13.
  */
 case class User(
-                 id: Option[Long],
+                 id: Long,
                  login: Option[String],
                  name: Option[String],
                  email: Option[String],
@@ -15,9 +15,9 @@ case class User(
                  url: Option[String],
                  avatar: Option[String],
                  company: Option[String],
-                 followers: Option[Int],
-                 following: Option[Int],
-                 public_repos: Option[Int],
+                 followers: Int,
+                 following: Int,
+                 public_repos: Int,
                  repos_url: Option[String],
                  created_at: Option[String],
                  updated_at: Option[String]
