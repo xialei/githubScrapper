@@ -1,11 +1,14 @@
 package com.aug3.githubScrapper.scrapers
 
+import argonaut.Parse
 import com.aug3.githubScrapper.domain.{User, Item, SearchParam}
 import dispatch._
 import Defaults._
 
 import org.json4s._
 import org.json4s.native.JsonMethods._
+
+import scala.util.{Success, Failure}
 
 /**
  * Created by roger on 15/11/7.
@@ -56,26 +59,44 @@ class GithubAPI {
 
     val response = Http(request OK dispatch.as.String)
 
-    val json = parse(response())
+    var user: User = 
 
-    println("===" + json)
+    response onComplete {
+      case Success(content) => {
 
-    return User(
-      compact(render(json \ "id")).toLong,
-      Some(compact(render(json \ "login"))).orElse(None),
-      Some(compact(render(json \ "name"))).orElse(None),
-      Some(compact(render(json \ "email"))).orElse(None),
-      Some(compact(render(json \ "location"))).orElse(None),
-      Some(compact(render(json \ "url"))).orElse(None),
-      Some(compact(render(json \ "avatar"))).orElse(None),
-      Some(compact(render(json \ "company"))).orElse(None),
-      compact(render(json \ "followers")).toInt,
-      compact(render(json \ "followers")).toInt,
-      compact(render(json \ "public_repos")).toInt,
-      Some(compact(render(json \ "repos_url"))).orElse(None),
-      Some(compact(render(json \ "created_at"))).orElse(None),
-      Some(compact(render(json \ "updated_at"))).orElse(None)
-    )
+        user = User(
+          parseSimpleIntField(content, "id"),
+          parseSimpleField(content, "login"),
+          parseSimpleField(content, "name"),
+          parseSimpleField(content, "email"),
+          parseSimpleField(content, "location"),
+          parseSimpleField(content, "url"),
+          parseSimpleField(content, "avatar"),
+          parseSimpleField(content, "company"),
+          parseSimpleIntField(content, "followers"),
+          parseSimpleIntField(content, "following"),
+          parseSimpleIntField(content, "public_repos"),
+          parseSimpleField(content, "repos_url"),
+          parseSimpleField(content, "created_at"),
+          parseSimpleField(content, "updated_at")
+        )
+
+      }
+      case Failure(t) => {
+        println("An error has occurred: " + t.getMessage)
+      }
+    }
+
+    return user
+
+  }
+
+  def parseSimpleField(json: String, f: String): Option[String] = {
+    Some(Parse.parseWith(json, _.field(f).flatMap(_.string).getOrElse(null), msg => msg)).orElse(None);
+  }
+
+  def parseSimpleIntField(json: String, f: String): Int = {
+    Parse.parseWith(json, _.field(f).flatMap(_.string).getOrElse(null), msg => msg).toInt;
   }
 
 }
