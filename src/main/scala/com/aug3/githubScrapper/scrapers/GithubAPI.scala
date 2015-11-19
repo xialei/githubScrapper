@@ -1,6 +1,5 @@
 package com.aug3.githubScrapper.scrapers
 
-import argonaut.Parse
 import com.aug3.githubScrapper.domain.{User, Item, SearchParam}
 import dispatch._
 import Defaults._
@@ -8,7 +7,6 @@ import Defaults._
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
-import scala.util.{Success, Failure}
 
 /**
  * Created by roger on 15/11/7.
@@ -59,45 +57,51 @@ class GithubAPI {
 
     val response = Http(request OK dispatch.as.String)
 
-    var user: User = 
+    val json = parse(response())
 
-    response onComplete {
-      case Success(content) => {
+    println("===" + json)
 
-        user = User(
-          parseSimpleIntField(content, "id"),
-          parseSimpleField(content, "login"),
-          parseSimpleField(content, "name"),
-          parseSimpleField(content, "email"),
-          parseSimpleField(content, "location"),
-          parseSimpleField(content, "url"),
-          parseSimpleField(content, "avatar"),
-          parseSimpleField(content, "company"),
-          parseSimpleIntField(content, "followers"),
-          parseSimpleIntField(content, "following"),
-          parseSimpleIntField(content, "public_repos"),
-          parseSimpleField(content, "repos_url"),
-          parseSimpleField(content, "created_at"),
-          parseSimpleField(content, "updated_at")
-        )
+    val results = for {
+      JObject(item) <- json
+      JField("id", JInt(id)) <- item
+      JField("login", JString(login)) <- item
+      JField("name", JString(name)) <- item
+      JField("email", JString(email)) <- item
+      JField("location", JString(location)) <- item
+      JField("html_url", JString(url)) <- item
+      JField("avatar_url", JString(avatar)) <- item
+//      JField("company", JString(company)) <- item
+      JField("followers", JInt(followers)) <- item
+      JField("following", JInt(following)) <- item
+      JField("public_repos", JInt(public_repos)) <- item
+      JField("repos_url", JString(repos_url)) <- item
+      JField("created_at", JString(created_at)) <- item
+      JField("updated_at", JString(updated_at)) <- item
+    } yield User(
+        id.toInt,
+        Some(login).orElse(None),
+        Some(name).orElse(None),
+        Some(email).orElse(None),
+        Some(location).orElse(None),
+        Some(url).orElse(None),
+        Some(avatar).orElse(None),
+//        Some(company).orElse(None),
+      None,
+        followers.toInt,
+        following.toInt,
+        public_repos.toInt,
+        Some(repos_url).orElse(None),
+        Some(created_at).orElse(None),
+        Some(updated_at).orElse(None)
+      )
 
-      }
-      case Failure(t) => {
-        println("An error has occurred: " + t.getMessage)
-      }
-    }
-
-    return user
+    if (results.size > 0)
+      return results.head
+    else
+      return User.nullableUser
 
   }
 
-  def parseSimpleField(json: String, f: String): Option[String] = {
-    Some(Parse.parseWith(json, _.field(f).flatMap(_.string).getOrElse(null), msg => msg)).orElse(None);
-  }
-
-  def parseSimpleIntField(json: String, f: String): Int = {
-    Parse.parseWith(json, _.field(f).flatMap(_.string).getOrElse(null), msg => msg).toInt;
-  }
 
 }
 

@@ -7,7 +7,7 @@ import argonaut.CodecJson
  * Created by roger on 15/10/13.
  */
 case class User(
-                 id: Long,
+                 id: Int,
                  login: Option[String],
                  name: Option[String],
                  email: Option[String],
@@ -31,4 +31,6 @@ object User {
     casecodec14(User.apply, User.unapply)("id", "login", "name", "email", "location",
       "url", "avatar", "company", "followers", "following", "public_repos",
       "repos_url", "created_at", "updated_at")
+
+  def nullableUser: User = User(-1, None, None, None, None, None, None, None, 0, 0, 0, None, None, None)
 }
